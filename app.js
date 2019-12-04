@@ -2,6 +2,7 @@ const express = require('express');
 const expressWebSocket = require('express-ws');
 const websocketStream = require('websocket-stream/stream');
 const ffmpeg = require('fluent-ffmpeg')
+const logger = require('./config/log.js')
 const app = express();
 
 // extend express app with app.ws()
@@ -18,23 +19,22 @@ app.ws("/", function (ws, req) {
         browserBufferTimeout: 1000000
     });
     let url = req.query.url;
-    console.log("rtsp url:", url);
-    console.log("rtsp params:", req.params);
+    logger.info("rtsp url:", url)
 
     try {
         ffmpeg(url)
             .addInputOption("-rtsp_transport", "tcp")
             .on("start", function () {
-                console.log("Stream started.");
+                logger.debug("Stream started.");
             })
             .on("codecData", function (data) {
-                console.log(`Input is ${data.video} video`);
+                logger.debug(`Input is ${data.video} video`);
             })
             .on("error", function (err) {
-                console.log("An error occured: ", err.message);
+                logger.debug("An error occured: ", err.message);
             })
             .on("end", function () {
-                console.log("Stream end!");
+                logger.debug("Stream end!");
             })
             .outputOptions([
                 '-b:v 2000k',
@@ -49,8 +49,8 @@ app.ws("/", function (ws, req) {
             .videoCodec("copy")
             .noAudio().pipe(stream);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 });
 app.listen(9090);
-console.log("express listened")
+logger.debug("express listened on 9090")
