@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
     "fluent-ffmpeg": "^2.1.2",
-    "log4js": "^6.1.0",
+    "log4js": "^6.4.0",
     "websocket-stream": "^5.5.0"
   }
 }
