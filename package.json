@@ -12,7 +12,7 @@
   "author": "zhyuanan",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-ws": "^4.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "log4js": "^6.1.0",
